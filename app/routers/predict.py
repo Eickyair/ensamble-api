@@ -1,22 +1,36 @@
-from fastapi import APIRouter
-import os, joblib
+from fastapi import APIRouter, HTTPException
+import os
+import joblib
 import sys
+from functools import lru_cache
 from model.rf_custom import SimpleRandomForest
 from app.models.schemas import PredictionInput, PredictionResponse
 
 sys.modules['__main__'].SimpleRandomForest = SimpleRandomForest
 
-print(SimpleRandomForest)
-PATH_MODEL = os.path.join(os.path.dirname(__file__),"..","..","model","model.pkl")
-model = joblib.load(PATH_MODEL)
-print("Modelo cargado con éxito")
-print("Modelo:", model)
+@lru_cache()
+def load_model():
+    """Load model once and cache it"""
+    PATH_MODEL = os.path.join(os.path.dirname(__file__), "..", "..", "model", "model.pkl")
+    try:
+        model = joblib.load(PATH_MODEL)
+        print(f"Modelo cargado exitosamente desde: {PATH_MODEL}")
+        return model
+    except Exception as e:
+        print(f"Error cargando modelo: {e}")
+        raise
 
-print("Cargando modelo desde:", PATH_MODEL)
-
-
+# Caché muy agresivo (1000 predicciones únicas)
+@lru_cache(maxsize=1000)
+def cached_predict(features_tuple):
+    model = load_model()
+    features = [list(features_tuple)]
+    prediction_index = model['model'].predict(features)[0]
+    return int(prediction_index)
 
 router = APIRouter(prefix="", tags=["Predictions"])
+
+MAP_INDEX_TO_SPECIES = {0: "setosa", 1: "versicolor", 2: "virginica"}
 
 @router.post(
     "/predict",
@@ -31,17 +45,11 @@ router = APIRouter(prefix="", tags=["Predictions"])
 async def predict(input_data: PredictionInput) -> PredictionResponse:
     """
     Make a prediction using the ensemble machine learning model.
-
-    Args:
-        input_data: Input features for prediction
-
-    Returns:
-        dict: A dictionary containing the prediction result.
     """
-    features = [input_data.features]
-    map_index_to_species = {0: "setosa", 1: "versicolor", 2: "virginica"}
-    prediction_index = model['model'].predict(features)[0]
-    specie = map_index_to_species.get(prediction_index, "unknown")
-    return PredictionResponse(
-        prediction=specie,
-    )
+    try:
+        features_tuple = tuple(input_data.features)
+        prediction_index = cached_predict(features_tuple)
+        specie = MAP_INDEX_TO_SPECIES.get(prediction_index, "unknown")
+        return PredictionResponse(prediction=specie)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error en predicción")

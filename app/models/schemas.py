@@ -55,3 +55,10 @@ class ErrorResponse(BaseModel):
         description="Requested path that caused the error",
         examples=["/invalid/path"]
     )
+
+class ErrorResponseBase(BaseModel):
+    """Error response model"""
+    error: str = Field(
+        description="Error message",
+        examples=["Ruta no encontrada"]
+    )

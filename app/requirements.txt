@@ -6,3 +6,4 @@ pandas
 scikit-learn
 pydantic-settings
 joblib
+matplotlib
