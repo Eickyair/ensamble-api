@@ -1,11 +1,8 @@
 from fastapi import APIRouter
-from pydantic import BaseModel, Field, field_validator
-
-from typing import List
-from typing import Literal
 import os, joblib
 import sys
 from model.rf_custom import SimpleRandomForest
+from app.models.schemas import PredictionInput, PredictionResponse
 
 sys.modules['__main__'].SimpleRandomForest = SimpleRandomForest
 
@@ -16,18 +13,7 @@ print("Modelo cargado con éxito")
 print("Modelo:", model)
 
 print("Cargando modelo desde:", PATH_MODEL)
-class PredictionInput(BaseModel):
-    features: List[float] = Field(..., min_length=4, max_length=4)
 
-    @field_validator('features')
-    def validate_features(cls, v):
-        if len(v) != 4:
-            raise ValueError('Must provide exactly 4 features')
-        if any(x < 0 for x in v):
-            raise ValueError('All features must be greater than or equal to zero')
-        return v
-class PredictionResponse(BaseModel):
-    prediction: Literal["setosa", "versicolor", "virginica", "unknown"]
 
 
 router = APIRouter(prefix="", tags=["Predictions"])
@@ -42,7 +28,7 @@ router = APIRouter(prefix="", tags=["Predictions"])
         500: {"description": "Internal server error"}
     }
 )
-async def predict(input_data: PredictionInput):
+async def predict(input_data: PredictionInput) -> PredictionResponse:
     """
     Make a prediction using the ensemble machine learning model.
 

@@ -1,5 +1,5 @@
-from pydantic import BaseModel, Field
-from typing import Literal
+from pydantic import BaseModel, Field, field_validator
+from typing import Literal, List
 
 
 class HealthResponse(BaseModel):
@@ -31,6 +31,19 @@ class ModelInfo(BaseModel):
         examples=[8]
     )
 
+
+class PredictionInput(BaseModel):
+    features: List[float] = Field(..., min_length=4, max_length=4)
+
+    @field_validator('features')
+    def validate_features(cls, v):
+        if len(v) != 4:
+            raise ValueError('Must provide exactly 4 features')
+        if any(x < 0 for x in v):
+            raise ValueError('All features must be greater than or equal to zero')
+        return v
+class PredictionResponse(BaseModel):
+    prediction: Literal["setosa", "versicolor", "virginica", "unknown"]
 
 class ErrorResponse(BaseModel):
     """Error response model"""
