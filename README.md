@@ -7,13 +7,13 @@
 ![ML](https://img.shields.io/badge/ML-RandomForest-green?style=for-the-badge&logo=scikit-learn)
 
 API REST para predicciones con modelos de Machine Learning basados en ensambles de *RandomForest from Scratch*
-</div>
 
 [Características](#-características) •
 [Instalación](#-instalación) •
 [Uso](#-uso) •
 [API Docs](#-documentación-de-la-api) •
 
+</div>
 
 ---
 
@@ -24,11 +24,10 @@ API REST para predicciones con modelos de Machine Learning basados en ensambles 
 ## ✨ Características
 
 - 🚀 **Alta Performance**: Construida con FastAPI para máxima velocidad
-- 🔮 **Predicciones ML**: Modelo de ensamble RandomForest optimizado
-- 📊 **Monitoreo**: Endpoints de health check y métricas
-- 📚 **Documentación Automática**: Swagger UI y ReDoc incluidos
-- 🛡️ **Manejo de Errores**: Respuestas consistentes y descriptivas
-- ⚡ **Async Ready**: Soporte para operaciones asíncronas
+- 🔮 **Predicciones ML**: Modelo de ensamble RandomForest
+- 📊 **Monitoreo**: Endpoints de health check
+- 📚 **Documentación Automática**: Swagger UI
+- 🛡️ **Manejo de Errores**: Respuestas consistentes
 
 ## 🛠️ Instalación
 
