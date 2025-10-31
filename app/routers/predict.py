@@ -12,13 +12,8 @@ sys.modules['__main__'].SimpleRandomForest = SimpleRandomForest
 def load_model():
     """Load model once and cache it"""
     PATH_MODEL = os.path.join(os.path.dirname(__file__), "..", "..", "model", "model.pkl")
-    try:
-        model = joblib.load(PATH_MODEL)
-        print(f"Modelo cargado exitosamente desde: {PATH_MODEL}")
-        return model
-    except Exception as e:
-        print(f"Error cargando modelo: {e}")
-        raise
+    model = joblib.load(PATH_MODEL)
+    return model
 
 # Caché muy agresivo (1000 predicciones únicas)
 @lru_cache(maxsize=1000)

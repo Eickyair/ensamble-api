@@ -33,7 +33,7 @@ class ModelInfo(BaseModel):
 
 
 class PredictionInput(BaseModel):
-    features: List[float] = Field(..., min_length=4, max_length=4)
+    features: List[float] = Field(..., min_length=4, max_length=4, description="List of 4 feature values")
 
     @field_validator('features')
     def validate_features(cls, v):
