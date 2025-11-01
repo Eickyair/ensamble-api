@@ -121,4 +121,5 @@ try {
     Write-Host $_.Exception.Message -ForegroundColor Yellow
 }
 
+python ./scripts/api_validator.py
 Write-Host "`n=== Pruebas completadas ===" -ForegroundColor Magenta

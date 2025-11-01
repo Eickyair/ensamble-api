@@ -6,28 +6,27 @@
 ![Python](https://img.shields.io/badge/python-3.8+-blue.svg?style=for-the-badge&logo=python&logoColor=white)
 ![ML](https://img.shields.io/badge/ML-RandomForest-green?style=for-the-badge&logo=scikit-learn)
 
-API REST para predicciones con modelos de Machine Learning basados en ensambles de *RandomForest from Scratch*
-
-[Características](#-características) •
-[Instalación](#-instalación) •
-[Uso](#-uso) •
-[API Docs](#-documentación-de-la-api) •
+API REST para predicciones con modelos de Machine Learning basados en ensambles de *Decision Trees*
 
 </div>
+
+- [Características](#-características)
+- [Instalación](#-instalación)
+- [Uso](#-uso)
+- [API Docs](#-documentación-de-la-api)
 
 ---
 
 ## 📋 Descripción
 
-**Ensamble API** es una API REST construida con FastAPI que despliega un modelo de predicción basado en RandomForest. Proporciona endpoints para realizar predicciones, monitoreo de salud y obtener información sobre la configuración del modelo.
+**Ensamble API** es una API REST construida con FastAPI que despliega un modelo de predicción basado en *Decision Trees*. Proporciona endpoints para realizar predicciones, monitoreo de salud y obtener información sobre la configuración del modelo.
 
 ## ✨ Características
 
 - 🚀 **Alta Performance**: Construida con FastAPI para máxima velocidad
-- 🔮 **Predicciones ML**: Modelo de ensamble RandomForest
+- 🔮 **Predicciones ML**: Modelo de ensamble basado en **Decision Trees**
 - 📊 **Monitoreo**: Endpoints de health check
 - 📚 **Documentación Automática**: Swagger UI
-- 🛡️ **Manejo de Errores**: Respuestas consistentes
 
 ## 🛠️ Instalación
 
@@ -40,14 +39,14 @@ API REST para predicciones con modelos de Machine Learning basados en ensambles 
 
 1. **Clonar el repositorio**
 ```bash
-git clone https://github.com/marti/ensamble-api.git
+git clone https://github.com/Eickyair/ensamble-api
 cd ensamble-api
 ```
 
 2. **Crear entorno virtual**
 ```bash
 python -m venv venv
-venv\Scripts\activate  # En Windows
+venv\Scripts\activate  # En Windows cambia
 ```
 
 3. **Instalar dependencias**
@@ -60,7 +59,7 @@ pip install -r ./app/requirements.txt
 uvicorn app.main:app --reload
 ```
 
-La API estará disponible en: `http://localhost:8000`
+La API estará disponible en: <code>[http://localhost:8000](http://localhost:8000)</code>
 
 ## 🚀 Uso
 
@@ -87,7 +86,7 @@ Content-Type: application/json
   "features": [1.5, 2.3, 4.5, ...]
 }
 ```
-
+Realiza inferencias con el modelo entrenado de ensamble
 ### Ejemplo con Python
 
 ```python
@@ -120,6 +119,14 @@ ensamble-api/
 │   │   ├── health.py        # Health checks
 │   │   ├── info.py          # Información del modelo
 │   │   └── predict.py       # Predicciones
+├── notebooks/
+│   ├── experiments.ipynb    # Pipeline del modelo
+├── .env.example             # Plantilla de variables de entorno
+├── start.{ps1,sh}           # Scripts para levantar la app
+├── test.{ps1,sh}            # Scripts para probar el funcionamiento de la api
+├── scripts/
+│   ├── api_validator.py     # Script para realizar pruebas de estres a cada enpoint
+│   ├── incremental.py       # Script para realizar prueba incremental de estres
 └── README.md
 ```
 

@@ -259,7 +259,7 @@ async def main():
         concurrent=20
     )
     validator.save_report(report_health, "report_health.json")
-    
+
     # Test 2: Info endpoint
     print("\n📝 TEST 2: Model Info")
     report_info = await validator.validate_endpoint(
@@ -269,7 +269,6 @@ async def main():
         concurrent=100
     )
     validator.save_report(report_info, "report_info.json")
-    
     # Test 3: Predict endpoint
     print("\n🔮 TEST 3: Predictions")
     prediction_data = {
