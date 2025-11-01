@@ -147,6 +147,11 @@ API_BASE_URL=http://localhost:8000
 - **Servidor**: Uvicorn
 - **Validación**: Pydantic
 
+## Integrantes
+- Erick Yair Aguilar Martinez (Usuario GitHub: Eickyair)
+- Roberto Jhoshua Alegre Ventura (Usuario GitHub: AlegreVentura)
+- Vania Janet Raya Rios (Usuario GitHub: Vania-Janet)
+
 <div align="center">
 Hecho con ❤️ y ☕
 </div>

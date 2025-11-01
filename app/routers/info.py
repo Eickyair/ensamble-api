@@ -17,7 +17,8 @@ router = APIRouter(prefix="", tags=["Info"])
                     "example": {
                         "team": "pi",
                         "model": "RandomForestClassifier",
-                        "n_estimators": 100,
+                        "n_estimators": 50,
+                        "max_features": "sqrt",
                         "max_depth": 8
                     }
                 }
@@ -36,6 +37,7 @@ async def info() -> ModelInfo:
     return ModelInfo(
         team="pi",
         model="RandomForestClassifier",
-        n_estimators=100,
+        n_estimators=50,
+        max_features="sqrt",
         max_depth=8
     )

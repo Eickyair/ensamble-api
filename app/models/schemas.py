@@ -30,6 +30,10 @@ class ModelInfo(BaseModel):
         gt=0,
         examples=[8]
     )
+    max_features: str = Field(
+        description="Number of features to consider when looking for the best split",
+        examples=["sqrt"]
+    )
 
 
 class PredictionInput(BaseModel):
