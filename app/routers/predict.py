@@ -8,19 +8,22 @@ from app.models.schemas import PredictionInput, PredictionResponse
 
 sys.modules['__main__'].SimpleRandomForest = SimpleRandomForest
 
+
 @lru_cache()
 def load_model():
     """Load model once and cache it"""
     PATH_MODEL = os.path.join(os.path.dirname(__file__), "..", "..", "model", "model.pkl")
     model = joblib.load(PATH_MODEL)
-    return model
+    print("Modelo cargado:")
+    print(model['est'])
+    return model['est']
 
 # Caché muy agresivo (1000 predicciones únicas)
 @lru_cache(maxsize=1000)
 def cached_predict(features_tuple):
     model = load_model()
     features = [list(features_tuple)]
-    prediction_index = model['model'].predict(features)[0]
+    prediction_index = model.predict(features)[0]
     return int(prediction_index)
 
 router = APIRouter(prefix="", tags=["Predictions"])
@@ -43,8 +46,10 @@ async def predict(input_data: PredictionInput) -> PredictionResponse:
     """
     try:
         features_tuple = tuple(input_data.features)
+        print("Received features:", features_tuple)
         prediction_index = cached_predict(features_tuple)
         specie = MAP_INDEX_TO_SPECIES.get(prediction_index, "unknown")
         return PredictionResponse(prediction=specie)
     except Exception as e:
+        print("Error during prediction:", e, file=sys.stderr)
         raise HTTPException(status_code=500, detail=f"Error en predicción")
